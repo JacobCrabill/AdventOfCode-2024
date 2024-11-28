@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <day number>";
+  exit 1;
+fi
+
+day_n="${1}";
+
+if [ ! -d "${day_n}" ]; then
+  cp -r template "${day_n}";
+  sed -i "s/dayX/day${day_n}/g" "${day_n}"/build.zig
+  echo "Created day${day_n}";
+fi
