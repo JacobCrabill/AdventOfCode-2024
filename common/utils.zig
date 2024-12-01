@@ -4,8 +4,34 @@ const TokenIterator = std.mem.TokenIterator(u8, .any);
 const SplitIterator = std.mem.SplitIterator(u8, .sequence);
 
 /// Simplified wrapper around Heap sort
-pub fn heapSort(T: anytype, items: []T, lessThan: fn (void, T, T) bool) void {
-    std.sort.heap(T, items, {}, lessThan);
+pub fn heapSort(T: anytype, items: []T, lessThanFn: fn (void, T, T) bool) void {
+    std.sort.heap(T, items, {}, lessThanFn);
+}
+
+pub fn LessThan(T: anytype) type {
+    return struct {
+        pub fn lessThanFn(_: void, a: T, b: T) bool {
+            return a < b;
+        }
+    };
+}
+
+/// Sort built-in numeric types in *ascending* order
+pub fn heapSortAsc(T: type, items: []T) void {
+    return std.sort.heap(T, items, {}, LessThan(T).lessThanFn);
+}
+
+pub fn GreaterThan(T: anytype) type {
+    return struct {
+        pub fn lessThanFn(_: void, a: T, b: T) bool {
+            return a < b;
+        }
+    };
+}
+
+/// Sort built-in numeric types in *descending* order
+pub fn heapSortDes(T: type, items: []T) void {
+    return std.sort.heap(T, items, {}, GreaterThan(T).lessThanFn);
 }
 
 /// Count occurances of 'value' within 'haystack'

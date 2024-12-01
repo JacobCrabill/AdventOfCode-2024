@@ -50,10 +50,6 @@ test "part2 test input" {
 
 // ------------ Part 1 Solution ------------
 
-fn lessThan(_: void, a: usize, b: usize) bool {
-    return a < b;
-}
-
 pub fn part1(input: []const u8, alloc: Allocator) !usize {
     var col1 = ArrayList(usize).init(alloc);
     var col2 = ArrayList(usize).init(alloc);
@@ -70,8 +66,8 @@ pub fn part1(input: []const u8, alloc: Allocator) !usize {
         try col2.append(b);
     }
 
-    utils.heapSort(usize, col1.items, lessThan);
-    utils.heapSort(usize, col2.items, lessThan);
+    utils.heapSortAsc(usize, col1.items);
+    utils.heapSortAsc(usize, col2.items);
 
     var sum: usize = 0;
     for (col1.items, 0..) |a, i| {
@@ -99,8 +95,8 @@ pub fn part2(input: []const u8, alloc: Allocator) !usize {
         try col2.append(b);
     }
 
-    utils.heapSort(usize, col1.items, lessThan);
-    utils.heapSort(usize, col2.items, lessThan);
+    utils.heapSortAsc(usize, col1.items);
+    utils.heapSortAsc(usize, col2.items);
 
     var sum: usize = 0;
     for (col1.items) |a| {
